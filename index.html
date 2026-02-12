@@ -3,89 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine’s Day Love Message</title>
+    <title>Valentine's Day</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f8e3e9;
-            font-family: 'Arial', sans-serif;
-            color: #900;
+            background-color: #cab3e1;
+            font-family: Arial, sans-serif;
+            color: #5c314f;
+            text-align: center;
+            overflow: hidden;
         }
         h1 {
-            margin-bottom: 20px;
-        }
-        .heart {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            background: #ff6b81;
-            border-radius: 50px 50px 0 0;
-            transform: rotate(-45deg);
-            animation: float 3s ease-in-out infinite;
-        }
-        .heart:before,
-        .heart:after {
-            content: "";
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: #ff6b81;
-            border-radius: 50%;
-        }
-        .heart:before {
-            top: -50px;
-            left: 0;
-        }
-        .heart:after {
-            left: 50px;
-            top: 0;
-        }
-        @keyframes float {
-            0%, 100% {
-                transform: translatey(0px);
-            }
-            50% {
-                transform: translatey(-20px);
-            }
+            color: #6f2c91;
         }
         .countdown {
-            font-size: 24px;
+            font-size: 2em;
+            color: #f9d774;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            animation: float 4s ease-in infinite;
+        }
+        @keyframes float {
+            0% {transform: translateY(0);} 
+            50% {transform: translateY(-20px);} 
+            100% {transform: translateY(0);} 
+        }
+        .password-lock {
+            display: none;
             margin-top: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        .show {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <h1>💖 رسالة حب 💖</h1>
-    <div class="heart"></div>
-    <p>من محمد إلى فيتون/توتي: <strong>أحبك!</strong></p>
-    <p class="countdown" id="countdown"></p>
+    <h1>Happy Valentine’s Day!</h1>
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="checkPassword()">Unlock</button>
+    <div id="message" class="password-lock hidden">
+        <p>You are loved! 💖 Here’s to a day filled with love and laughter!</p>
+        <p id="countdown" class="countdown"></p>
+    </div>
     <script>
-        const targetDate = new Date('2026-12-12T00:00:00Z').getTime();
+        let targetDate = new Date('2026-02-14T00:00:00');
+        let countdownElement = document.getElementById('countdown');
+        let password = 'love'; 
+
         function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById('countdown').innerHTML = `يتبقى ${days} يوم و ${hours} ساعة و ${minutes} دقيقة و ${seconds} ثانية لعيد الحب!`;
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById('countdown').innerHTML = 'عيد حب سعيد!';
+            const currentDate = new Date();
+            const totalSeconds = (targetDate - currentDate) / 1000;
+            const days = Math.floor(totalSeconds / 86400);
+            countdownElement.innerText = `${days} days until Valentine’s Day!`;
+        }
+        function checkPassword() {
+            const inputPassword = document.getElementById('password').value;
+            if (inputPassword === password) {
+                document.getElementById('message').classList.remove('hidden');
+                document.getElementById('message').classList.add('show');
+                setInterval(updateCountdown, 1000);
+                updateCountdown();
+            } else {
+                alert('Incorrect Password!');
             }
         }
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-        
-        // Password Lock Feature
-        const password = 'Loove youu';
-        const userPassword = prompt('Please enter the password:');
-        if (userPassword !== password) {
-            document.body.innerHTML = '<h1>Access Denied!</h1>';
+        for (let i = 0; i < 20; i++) {
+            createHeart();
+        }
+        function createHeart() {
+            let heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = 2 + Math.random() * 6 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
         }
     </script>
 </body>
